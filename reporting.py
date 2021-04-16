@@ -185,10 +185,13 @@ def arch_dir_report(archdir_freebytes, width, prefix=''):
 def dirs_report(jobs, dir_cfg, sched_cfg, width):
     tmpdirs = dir_cfg['tmp']
     dstdirs = dir_cfg['dst']
-    arch_cfg = dir_cfg['archive']
-    return (tmp_dir_report(jobs, tmpdirs, sched_cfg, width) + '\n' +
-            dst_dir_report(jobs, dstdirs, width) + '\n' +
-            'archive dirs free space:\n' +
-            arch_dir_report(archive.get_archdir_freebytes(arch_cfg), width) + '\n')
+    arch_cfg = dir_cfg.get('archive')
+    msg = (tmp_dir_report(jobs, tmpdirs, sched_cfg, width) + '\n' +
+            dst_dir_report(jobs, dstdirs, width) + '\n')
+    if arch_cfg:
+        msg += ('archive dirs free space:\n' +
+                arch_dir_report(archive.get_archdir_freebytes(arch_cfg), width) + '\n')
+    return msg
+
 
 
