@@ -55,8 +55,8 @@ scheduling:
         # have progresed at least this far.  Phase major corresponds to the
         # plot phase, phase minor corresponds to the table or table pair
         # in sequence.
-        tmpdir_stagger_phase_major: 2
-        tmpdir_stagger_phase_minor: 1
+        tmpdir_stagger_phase_major: 1
+        tmpdir_stagger_phase_minor: 4
 
         # Don't run more than this many jobs at a time on a single temp dir.
         tmpdir_max_jobs: 5
