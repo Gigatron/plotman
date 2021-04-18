@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env python
 
 from datetime import datetime
 from subprocess import call
@@ -35,6 +35,7 @@ class PlotmanArgParser:
         sp = parser.add_subparsers(dest='cmd')
 
         p_status = sp.add_parser('status', help='show current plotting status')
+        p_status.add_argument("--summary", action="store_true", help="display summaries")
  
         p_dirs = sp.add_parser('dirs', help='show directories info')
 
@@ -112,7 +113,11 @@ if __name__ == "__main__":
         # Status report
         if args.cmd == 'status':
             (rows, columns) = os.popen('stty size', 'r').read().split()
-            print(reporting.status_report(jobs, int(columns)))
+            msg = ""
+            if args.summary:
+                msg = reporting.dirs_report(jobs, dir_cfg, sched_cfg, int(columns))
+            msg = f"{msg}{reporting.status_report(jobs, int(columns))}"
+            print(msg)
 
         # Directories report
         elif args.cmd == 'dirs':
