@@ -116,7 +116,7 @@ if __name__ == "__main__":
             msg = ""
             if args.summary:
                 msg = reporting.dirs_report(jobs, dir_cfg, sched_cfg, int(columns))
-            msg = f"{msg}{reporting.status_report(jobs, int(columns))}"
+            msg = f"{msg}\n{reporting.status_report(jobs, int(columns))}"
             print(msg)
 
         # Directories report

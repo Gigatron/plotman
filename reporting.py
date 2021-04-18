@@ -123,16 +123,25 @@ def status_report(jobs, width, height=None, tmp_prefix='', dst_prefix=''):
 def tmp_dir_report(jobs, tmpdirs, sched_cfg, width, start_row=None, end_row=None, prefix=''):
     '''start_row, end_row let you split the table up if you want'''
     tab = tt.Texttable()
-    headings = ['tmp', 'ready', 'phases']
+    headings = ['tmp', 'count', 'ready', 'phases', 'youngest', 'eldest']
     tab.header(headings)
     tab.set_cols_dtype('t' * len(headings))
     tab.set_cols_align('r' * (len(headings) - 1) + 'l')
     for i, d in enumerate(sorted(tmpdirs)):
         if (start_row and i < start_row) or (end_row and i >= end_row):
             continue
+        dir_jobs = [j for j in jobs if j.tmpdir == d]
+        job_age = [j.get_time_wall() for j in dir_jobs]
         phases = sorted(job.job_phases_for_tmpdir(d, jobs))
         ready = manager.phases_permit_new_job(phases, sched_cfg)
-        row = [abbr_path(d, prefix), 'OK' if ready else '--', phases_str(phases)]
+        row = [
+            abbr_path(d, prefix),
+            len(dir_jobs),
+            'Y' if ready else 'N',
+            phases_str(phases),
+            plot_util.time_format(min(job_age)),
+            plot_util.time_format(max(job_age)),
+        ]
         tab.add_row(row)
 
     tab.set_max_width(width)
