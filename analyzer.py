@@ -95,15 +95,12 @@ class LogAnalyzer(object):
             for measure in self.all_measures:
                 values = data.get(key, {}).get(measure, [])
                 if len(values) > 1:
-                    row.append(
-                        "μ=%s σ=%s"
-                        % (
-                            plot_util.human_format(statistics.mean(values), 1),
-                            plot_util.human_format(statistics.stdev(values), 0),
-                        )
-                    )
+                    mean_h = statistics.mean(values) / HOUR
+                    stdev_h = statistics.stdev(values) / HOUR
+                    row.append(f"μ={mean_h:.2f} σ={stdev_h:.2f}")
                 elif len(values) == 1:
-                    row.append(plot_util.human_format(values[0], 1))
+                    spent = values[0] / HOUR
+                    row.append(f"{spent:.2f}")
                 else:
                     row.append("N/A")
             tab.add_row(row)
@@ -111,9 +108,10 @@ class LogAnalyzer(object):
         (rows, columns) = os.popen("stty size", "r").read().split()
         tab.set_max_width(int(columns))
         s = tab.draw()
-        print(f"{s}\n")
-        velocity = PLOT_SIZE_TB * done / self._window_in_day
-        print(
-            f"{done} plots have been done in past {self._window_in_day} days, "
-            f"approximately {velocity:.2f} TB/Day"
-        )
+        if done > 1:
+            print(f"{s}\n")
+            velocity = PLOT_SIZE_TB * done / self._window_in_day
+            print(
+                f"{done} plots have been done in past {self._window_in_day} days, "
+                f"approximately {velocity:.2f} TB/Day"
+            )
