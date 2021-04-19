@@ -139,8 +139,8 @@ def tmp_dir_report(jobs, tmpdirs, sched_cfg, width, start_row=None, end_row=None
             len(dir_jobs),
             'Y' if ready else 'N',
             phases_str(phases),
-            plot_util.time_format(min(job_age)),
-            plot_util.time_format(max(job_age)),
+            plot_util.time_format(min(job_age)) if job_age else "N/A",
+            plot_util.time_format(max(job_age)) if job_age else "N/A",
         ]
         tab.add_row(row)
 

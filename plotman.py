@@ -191,7 +191,10 @@ if __name__ == "__main__":
                         job.cancel()
                         print("cleaing up temp files...")
                         for f in temp_files:
-                            os.remove(f)
+                            try:
+                                os.remove(f)
+                            except FileNotFoundError:
+                                pass
 
                 elif args.cmd == "suspend":
                     print("Suspending " + job.plot_id)
