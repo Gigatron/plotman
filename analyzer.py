@@ -108,8 +108,8 @@ class LogAnalyzer(object):
         (rows, columns) = os.popen("stty size", "r").read().split()
         tab.set_max_width(int(columns))
         s = tab.draw()
+        print(f"{s}\n")
         if done > 1:
-            print(f"{s}\n")
             velocity = PLOT_SIZE_TB * done / self._window_in_day
             print(
                 f"{done} plots have been done in past {self._window_in_day} days, "
