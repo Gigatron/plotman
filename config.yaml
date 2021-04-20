@@ -15,14 +15,13 @@ directories:
         # abbreviate and show just the uniquely identifying suffix.
         tmp:
                 - /mnt/mnt0/tmp
+                - /mnt/mnt1/tmp
+                - /mnt/mnt2/tmp
                 - /mnt/mnt3/tmp
                 - /mnt/mnt4/tmp
                 - /mnt/mnt5/tmp
                 - /mnt/mnt6/tmp
                 - /mnt/mnt7/tmp
-#                - /mnt/mnt1/tmp        # disable this since this is 512G, impossible for 5 job
-                - /mnt/mnt2/tmp
-
 
         # Optional: tmp2 directory.  If specified, will be passed to
         # chia plots create as -2.  Only one tmp2 directory is supported.
@@ -59,7 +58,7 @@ scheduling:
         tmpdir_stagger_phase_minor: 4
 
         # Don't run more than this many jobs at a time on a single temp dir.
-        tmpdir_max_jobs: 5
+        tmpdir_max_jobs: 3
 
         # Don't run any jobs (across all temp dirs) more often than this.
         global_stagger_m: 0
